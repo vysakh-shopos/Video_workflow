@@ -8,7 +8,7 @@ from datetime import datetime
 from io import BytesIO
 
 import requests
-from moviepy import VideoFileClip, CompositeVideoClip, concatenate_videoclips, vfx
+from moviepy import VideoFileClip, CompositeVideoClip, concatenate_videoclips, vfx, ColorClip
 
 sys.path.append(str(Path(__file__).parent.parent.parent))
 
@@ -157,34 +157,148 @@ Please analyze these clips and create a professional editing plan that determine
                 transition_duration = transition.duration
 
                 # Apply transition effects based on type
-                if transition_type == TransitionType.CROSSFADE and i > 0:
+                # ═══════════════════════════════════════════════════════════════
+                # CORE TRANSITIONS
+                # ═══════════════════════════════════════════════════════════════
+                
+                if transition_type == TransitionType.CUT:
+                    # Hard cut: no overlap
+                    start_time = current_timeline_end
+                    if i == 0:
+                        lg.info(f"First clip starts at {start_time:.2f}s (hard cut)")
+                    else:
+                        lg.info(f"Cut transition: clip starts at {start_time:.2f}s")
+                
+                elif transition_type == TransitionType.CROSSFADE and i > 0:
                     # Apply crossfade: fade in on current clip, fade out on previous clip
                     lg.info(
                         f"Applying {transition_duration}s crossfade between "
                         f"clip {i} and clip {i+1}"
                     )
-
-                    # Apply fade-in to current clip
                     clip = clip.with_effects([vfx.CrossFadeIn(transition_duration)])
-
-                    # Apply fade-out to previous clip (re-assign in timeline)
                     prev_clip = timeline_clips[-1]
                     timeline_clips[-1] = prev_clip.with_effects([vfx.CrossFadeOut(transition_duration)])
-
-                    # Calculate overlapping start time
                     start_time = current_timeline_end - transition_duration
-                    lg.debug(
-                        f"Crossfade overlap: previous ends at {current_timeline_end:.2f}s, "
-                        f"current starts at {start_time:.2f}s"
-                    )
-
-                else:
-                    # Hard cut: no overlap
+                
+                # ═══════════════════════════════════════════════════════════════
+                # FADE TRANSITIONS
+                # ═══════════════════════════════════════════════════════════════
+                
+                elif transition_type == TransitionType.FADE_IN:
+                    # Fade from black at the start
+                    lg.info(f"Applying {transition_duration}s fade in from black")
+                    clip = clip.with_effects([vfx.FadeIn(transition_duration)])
                     start_time = current_timeline_end
-                    if i == 0:
-                        lg.info(f"First clip starts at {start_time:.2f}s (no fade-in)")
-                    else:
-                        lg.info(f"Cut transition: clip starts at {start_time:.2f}s")
+                
+                elif transition_type == TransitionType.FADE_OUT and i > 0:
+                    # Fade to black at the end of previous clip
+                    lg.info(f"Applying {transition_duration}s fade out to black")
+                    prev_clip = timeline_clips[-1]
+                    timeline_clips[-1] = prev_clip.with_effects([vfx.FadeOut(transition_duration)])
+                    start_time = current_timeline_end
+                
+                elif transition_type == TransitionType.FADE_THROUGH_BLACK and i > 0:
+                    # Fade out to black, then fade in from black
+                    lg.info(f"Applying {transition_duration}s fade through black")
+                    half_duration = transition_duration / 2
+                    
+                    # Apply fade out to previous clip
+                    prev_clip = timeline_clips[-1]
+                    timeline_clips[-1] = prev_clip.with_effects([vfx.FadeOut(half_duration)])
+                    
+                    # Apply fade in to current clip
+                    clip = clip.with_effects([vfx.FadeIn(half_duration)])
+                    
+                    # Add gap for black frame
+                    start_time = current_timeline_end + half_duration
+                
+                elif transition_type == TransitionType.FADE_THROUGH_WHITE and i > 0:
+                    # Fade out to white, then fade in from white
+                    lg.info(f"Applying {transition_duration}s fade through white")
+                    half_duration = transition_duration / 2
+                    
+                    # Apply fade out to previous clip (we'll simulate white by inverting fade logic)
+                    prev_clip = timeline_clips[-1]
+                    timeline_clips[-1] = prev_clip.with_effects([vfx.FadeOut(half_duration)])
+                    
+                    # Create white flash clip
+                    white_clip = ColorClip(
+                        size=clips[0].size, 
+                        color=(255, 255, 255), 
+                        duration=half_duration
+                    ).with_start(current_timeline_end)
+                    timeline_clips.append(white_clip)
+                    
+                    # Apply fade in to current clip
+                    clip = clip.with_effects([vfx.FadeIn(half_duration)])
+                    start_time = current_timeline_end + half_duration
+                
+                # ═══════════════════════════════════════════════════════════════
+                # SLIDE TRANSITIONS
+                # ═══════════════════════════════════════════════════════════════
+                
+                elif transition_type == TransitionType.SLIDE_IN_LEFT:
+                    lg.info(f"Applying {transition_duration}s slide in from left")
+                    clip = clip.with_effects([vfx.SlideIn(transition_duration, 'left')])
+                    start_time = current_timeline_end
+                
+                elif transition_type == TransitionType.SLIDE_IN_RIGHT:
+                    lg.info(f"Applying {transition_duration}s slide in from right")
+                    clip = clip.with_effects([vfx.SlideIn(transition_duration, 'right')])
+                    start_time = current_timeline_end
+                
+                elif transition_type == TransitionType.SLIDE_IN_TOP:
+                    lg.info(f"Applying {transition_duration}s slide in from top")
+                    clip = clip.with_effects([vfx.SlideIn(transition_duration, 'top')])
+                    start_time = current_timeline_end
+                
+                elif transition_type == TransitionType.SLIDE_IN_BOTTOM:
+                    lg.info(f"Applying {transition_duration}s slide in from bottom")
+                    clip = clip.with_effects([vfx.SlideIn(transition_duration, 'bottom')])
+                    start_time = current_timeline_end
+                
+                # ═══════════════════════════════════════════════════════════════
+                # ZOOM TRANSITIONS
+                # ═══════════════════════════════════════════════════════════════
+                
+                elif transition_type == TransitionType.ZOOM_IN and i > 0:
+                    # Zoom into previous clip while fading in current clip
+                    lg.info(f"Applying {transition_duration}s zoom in transition")
+                    
+                    # Apply zoom + fade to previous clip
+                    # Use resize with fixed scale (1.3x zoom) instead of dynamic
+                    prev_clip = timeline_clips[-1]
+                    prev_clip_zoomed = prev_clip.with_effects([
+                        vfx.Resize(1.3),  # Fixed 1.3x zoom
+                        vfx.CrossFadeOut(transition_duration)
+                    ])
+                    timeline_clips[-1] = prev_clip_zoomed
+                    
+                    # Fade in current clip
+                    clip = clip.with_effects([vfx.CrossFadeIn(transition_duration)])
+                    start_time = current_timeline_end - transition_duration
+                
+                elif transition_type == TransitionType.ZOOM_OUT and i > 0:
+                    # Zoom out of previous clip while fading in current clip
+                    lg.info(f"Applying {transition_duration}s zoom out transition")
+                    
+                    # Apply zoom + fade to previous clip
+                    # Use resize with fixed scale (0.8x zoom out) instead of dynamic
+                    prev_clip = timeline_clips[-1]
+                    prev_clip_zoomed = prev_clip.with_effects([
+                        vfx.Resize(0.8),  # Fixed 0.8x zoom out
+                        vfx.CrossFadeOut(transition_duration)
+                    ])
+                    timeline_clips[-1] = prev_clip_zoomed
+                    
+                    # Fade in current clip
+                    clip = clip.with_effects([vfx.CrossFadeIn(transition_duration)])
+                    start_time = current_timeline_end - transition_duration
+                
+                else:
+                    # Fallback: treat as cut
+                    lg.warning(f"Unknown or unsupported transition type: {transition_type}. Using cut.")
+                    start_time = current_timeline_end
 
                 # Set the clip's start time on the timeline
                 clip = clip.with_start(start_time)

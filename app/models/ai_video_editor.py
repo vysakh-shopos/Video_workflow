@@ -1,12 +1,29 @@
 from pydantic import BaseModel, Field
-from typing import List, Optional
+from typing import List, Optional, Literal
 from enum import Enum
 
 
 class TransitionType(str, Enum):
     """Type of transition between video clips"""
+    # Core transitions
     CUT = "cut"
     CROSSFADE = "crossfade"
+    
+    # Fade transitions
+    FADE_IN = "fade_in"
+    FADE_OUT = "fade_out"
+    FADE_THROUGH_BLACK = "fade_through_black"
+    FADE_THROUGH_WHITE = "fade_through_white"
+    
+    # Slide transitions
+    SLIDE_IN_LEFT = "slide_in_left"
+    SLIDE_IN_RIGHT = "slide_in_right"
+    SLIDE_IN_TOP = "slide_in_top"
+    SLIDE_IN_BOTTOM = "slide_in_bottom"
+    
+    # Transform transitions
+    ZOOM_IN = "zoom_in"
+    ZOOM_OUT = "zoom_out"
 
 
 class Transition(BaseModel):
@@ -16,7 +33,15 @@ class Transition(BaseModel):
         ..., 
         ge=0.0, 
         le=2.0, 
-        description="Duration of transition in seconds (0.0 for cuts, 0.3-1.0 for crossfades)"
+        description="Duration of transition in seconds (0.0 for cuts, 0.3-1.5 for effects)"
+    )
+    direction: Optional[Literal["left", "right", "top", "bottom"]] = Field(
+        None,
+        description="Direction for slide transitions (required for slide_in_* transitions)"
+    )
+    color: Optional[Literal["black", "white"]] = Field(
+        None,
+        description="Color for fade transitions (used in fade_through_* transitions)"
     )
 
     class Config:
