@@ -1,0 +1,1 @@
+system_prompt_analyser="""Identify the product in this image. Describe what it is and its key attributes like color, type, style. Keep it concise"""

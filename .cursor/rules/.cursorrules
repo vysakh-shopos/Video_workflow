@@ -1,0 +1,340 @@
+# Video Copilot API - Cursor Rules
+
+## Project Overview
+AI-powered video generation and editing platform using FastAPI, LangChain, and multiple AI providers (OpenAI, Anthropic, Replicate, Gemini).
+
+---
+
+## Architecture
+
+### Project Structure
+```
+app/
+├── config/          # Settings and environment configuration
+├── llms/           # LLM provider handlers (Claude, GPT, etc.)
+├── models/         # Pydantic models and data structures
+├── prompts/        # System prompts for LLM interactions
+├── services/       # Business logic and orchestration
+└── main.py         # Application entry point
+```
+
+### Architectural Patterns
+
+1. **Layered Architecture**
+   - `models/` - Data models and validation (Pydantic)
+   - `prompts/` - Prompt engineering and templates
+   - `llms/` - LLM provider abstractions
+   - `services/` - Business logic orchestration
+   - `config/` - Centralized configuration
+
+2. **Dependency Flow**
+   - Services → LLMs → Models
+   - Services → Prompts → Models
+   - Config is imported by all layers
+
+3. **LLM Handler Pattern**
+   - Each LLM provider has a handler class (e.g., `ClaudeHandler`)
+   - Handlers are singletons instantiated at module level
+   - Use LangChain abstractions for consistency
+
+4. **Structured Output Pattern**
+   - Use Pydantic models for all LLM responses
+   - Leverage `.with_structured_output()` for type safety
+   - Define enums for constrained fields
+
+---
+
+## Coding Standards
+
+### Python Style
+
+**Version**: Python ≥3.10
+
+**Formatting**:
+- Line length: 100 characters (Black/Ruff configured)
+- Use Black for auto-formatting
+- Use Ruff for linting (pycodestyle, pyflakes, isort, flake8-bugbear)
+
+**Imports**:
+```python
+# Standard library
+import os
+import sys
+from pathlib import Path
+
+# Third-party
+from fastapi import FastAPI
+from pydantic import BaseModel
+from loguru import logger as lg
+
+# Local
+from app.config.settings import settings
+from app.models.script_writer import VideoScript
+```
+
+### Pydantic Models
+
+**Structure**:
+```python
+from pydantic import BaseModel, Field
+from typing import List, Optional, Literal
+from enum import Enum
+
+class MyModel(BaseModel):
+    field_name: str = Field(..., description="Clear description")
+    optional_field: Optional[int] = Field(None, description="Optional field")
+    
+    class Config:
+        use_enum_values = True  # When using enums
+```
+
+**Rules**:
+- Always use `Field()` with descriptions
+- Use enums for constrained string values
+- Use `min_length`, `min_items` for validation
+- Group related models in same file
+
+### LLM Integration
+
+**Handler Pattern**:
+```python
+from langchain_anthropic import ChatAnthropic
+from app.config.settings import settings
+
+class LLMHandler:
+    def __init__(self):
+        self.llm = ChatAnthropic(
+            api_key=settings.API_KEY,
+            model="model-name",
+            temperature=0.7
+        )
+
+handler = LLMHandler()  # Singleton at module level
+```
+
+**Structured Output Usage**:
+```python
+from langchain_core.messages import HumanMessage, SystemMessage
+
+def generate_content(input_data: str) -> ModelClass:
+    llm_structured = handler.llm.with_structured_output(ModelClass)
+    messages = [
+        SystemMessage(content=SYSTEM_PROMPT),
+        HumanMessage(content=input_data)
+    ]
+    return llm_structured.invoke(messages)
+```
+
+### Configuration Management
+
+**Settings Pattern**:
+```python
+# config/settings.py
+from pydantic import BaseModel
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+class Settings(BaseModel):
+    API_KEY: str = os.getenv("API_KEY")
+    SETTING_NAME: str = os.getenv("SETTING_NAME", "default")
+
+settings = Settings()  # Singleton
+```
+
+**Usage**:
+```python
+from app.config.settings import settings
+
+api_key = settings.OPENAI_API_KEY
+```
+
+### Logging
+
+**Use Loguru**:
+```python
+from loguru import logger as lg
+
+lg.info("Starting process")
+lg.error(f"Error occurred: {e}")
+lg.debug(f"Debug info: {data}")
+```
+
+### Error Handling
+
+**Service Layer**:
+```python
+def service_function(param: str) -> ReturnType:
+    try:
+        # Business logic
+        result = process_data(param)
+        return result
+    except Exception as e:
+        lg.error(f"Error in service_function: {e}")
+        raise  # Re-raise or handle appropriately
+```
+
+### Path Handling
+
+**Use pathlib for paths**:
+```python
+from pathlib import Path
+import sys
+
+# Add parent to path if needed
+sys.path.append(str(Path(__file__).parent.parent))
+```
+
+### Type Hints
+
+**Always use type hints**:
+```python
+from typing import List, Optional, Dict, Any
+
+def process_items(
+    items: List[str], 
+    config: Optional[Dict[str, Any]] = None
+) -> Dict[str, List[str]]:
+    ...
+```
+
+### Testing
+
+**Structure** (when implemented):
+- Use pytest with pytest-asyncio
+- Test coverage target: meaningful coverage, not just numbers
+- Mock external API calls
+
+---
+
+## API Development Guidelines
+
+### Endpoint Patterns (Future FastAPI Implementation)
+```python
+from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel
+
+app = FastAPI()
+
+@app.post("/v2/endpoint")
+async def endpoint_handler(request: RequestModel) -> ResponseModel:
+    try:
+        result = await service_function(request)
+        return ResponseModel(success=True, data=result)
+    except Exception as e:
+        lg.error(f"Endpoint error: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+```
+
+### Request/Response Models
+- Define separate Pydantic models for requests and responses
+- Include `success: bool` in all responses
+- Provide detailed error messages
+
+---
+
+## Environment Variables
+
+**Required Variables**:
+```bash
+# AI Providers
+OPENAI_API_KEY=
+ANTHROPIC_API_KEY=
+REPLICATE_API_TOKEN=
+GEMINI_API_KEY=
+
+# Optional
+IMGBB_API_KEY=
+KLING_MAX_CONCURRENCY=2
+```
+
+---
+
+## Development Workflow
+
+### Package Management
+- Use `uv` for dependency management
+- Update `pyproject.toml` for new dependencies
+- Run `uv lock` after changes
+
+### Code Quality
+```bash
+# Format code
+black app/
+
+# Lint code
+ruff check app/
+
+# Type check (when implemented)
+mypy app/
+```
+
+---
+
+## Naming Conventions
+
+**Files**: `snake_case.py`
+**Classes**: `PascalCase`
+**Functions**: `snake_case()`
+**Constants**: `UPPER_SNAKE_CASE`
+**Private**: `_leading_underscore()`
+
+**Module Organization**:
+- Models: Noun-based (e.g., `script_writer.py` contains `VideoScript`)
+- Services: Verb-based functions (e.g., `write_script()`)
+- Handlers: `*Handler` or `*_handler` pattern
+
+---
+
+## Best Practices
+
+1. **Single Responsibility**: Each module has one clear purpose
+2. **DRY**: Centralize prompts, configs, and handlers
+3. **Type Safety**: Use Pydantic for all data structures
+4. **Error Logging**: Log errors with context before raising
+5. **Documentation**: Use docstrings for complex functions
+6. **Async/Await**: Use async patterns for I/O operations (future)
+7. **Structured Outputs**: Always validate LLM outputs with Pydantic
+8. **Configuration**: Never hardcode API keys or settings
+
+---
+
+## Common Patterns
+
+### Service Function Template
+```python
+from app.llms.provider import handler
+from app.prompts.module import PROMPT
+from app.models.module import OutputModel
+from loguru import logger as lg
+
+def service_function(input_param: str) -> OutputModel:
+    try:
+        llm_structured = handler.llm.with_structured_output(OutputModel)
+        messages = [
+            SystemMessage(content=PROMPT),
+            HumanMessage(content=input_param)
+        ]
+        response = llm_structured.invoke(messages)
+        return response
+    except Exception as e:
+        lg.error(f"Error in service_function: {e}")
+        raise
+```
+
+### Adding New LLM Provider
+1. Create handler in `llms/provider_name.py`
+2. Use LangChain integration if available
+3. Export singleton instance
+4. Follow existing handler patterns
+
+---
+
+## Notes
+
+- This is a **prototype** - focus on functionality over perfection
+- FastAPI endpoints defined in contract but not yet implemented
+- Video processing uses MoviePy, Pillow, OpenCV
+- Cloud storage: S3 or Supabase (currently commented out)
+

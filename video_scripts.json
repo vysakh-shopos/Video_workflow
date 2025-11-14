@@ -1,0 +1,118 @@
+{
+    "product_category": "Clothing",
+    "product_name": "Orange Adventure Logo T-Shirt",
+    "video_title": "Adventure Starts Here: Your New Favorite Tee",
+    "video_hook": "Bold orange fabric catches sunlight as hands reveal the mountain logo - adventure calling in 3, 2, 1...",
+    "target_audience": "Outdoor enthusiasts, adventure seekers, and casual wear lovers aged 18-35",
+    "video_objective": "Showcase the t-shirt's vibrant color, quality fabric, and adventure-ready style to drive purchase intent",
+    "scenes": [
+        {
+            "scene_number": 1,
+            "scene_title": "The Reveal",
+            "scene_purpose": "Create immediate visual impact and introduce the product with dramatic flair",
+            "setting": "Minimalist white studio backdrop with dramatic lighting",
+            "mood": "Energetic and captivating",
+            "frames": [
+                {
+                    "frame_number": 1,
+                    "visual_prompt": "Hands dramatically unfold a vibrant orange t-shirt against pure white background, fabric flowing in slow motion with golden hour lighting creating warm shadows and highlights on the orange fabric",
+                    "camera_angle": "medium_shot",
+                    "shot_type": "dolly",
+                    "has_model": true,
+                    "lighting": "dramatic golden hour backlighting with soft fill",
+                    "background_details": "Clean white seamless backdrop with subtle gradient shadows"
+                },
+                {
+                    "frame_number": 2,
+                    "visual_prompt": "Extreme close-up of the circular mountain logo on the left chest, camera slowly zooming in to reveal intricate mountain peak details with orange fabric texture visible around the logo",
+                    "camera_angle": "extreme_closeup",
+                    "shot_type": "zoom_in",
+                    "has_model": false,
+                    "lighting": "soft directional light highlighting logo details",
+                    "background_details": "Blurred orange fabric texture creating depth of field"
+                },
+                {
+                    "frame_number": 3,
+                    "visual_prompt": "Quick dynamic rotation shot of the t-shirt suspended in air, spinning to show front and back views with the orange color popping against the white background, fabric moving naturally",
+                    "camera_angle": "full_shot",
+                    "shot_type": "tracking",
+                    "has_model": false,
+                    "lighting": "bright even studio lighting with rim light",
+                    "background_details": "Pure white cyclorama with subtle floor reflection"
+                }
+            ]
+        },
+        {
+            "scene_number": 2,
+            "scene_title": "Adventure Lifestyle",
+            "scene_purpose": "Connect the product with outdoor adventure lifestyle and demonstrate versatility",
+            "setting": "Outdoor mountain trail with natural lighting and scenic backdrop",
+            "mood": "Adventurous and aspirational",
+            "frames": [
+                {
+                    "frame_number": 4,
+                    "visual_prompt": "Attractive young person putting on the orange t-shirt outdoors, mountains visible in background, natural wind catching the fabric as they adjust the fit with confident smile",
+                    "camera_angle": "medium_shot",
+                    "shot_type": "handheld",
+                    "has_model": true,
+                    "lighting": "natural golden hour sunlight with mountain backdrop",
+                    "background_details": "Scenic mountain range with hiking trail, pine trees, and blue sky"
+                },
+                {
+                    "frame_number": 5,
+                    "visual_prompt": "Low angle hero shot of model wearing the orange t-shirt standing confidently on rocky outcrop, arms crossed, mountain peaks behind them, t-shirt color contrasting beautifully with blue sky",
+                    "camera_angle": "low_angle",
+                    "shot_type": "static",
+                    "has_model": true,
+                    "lighting": "natural sunlight with dramatic sky contrast",
+                    "background_details": "Majestic mountain peaks, rocky terrain, and expansive blue sky with white clouds"
+                },
+                {
+                    "frame_number": 6,
+                    "visual_prompt": "Close-up of model's torso showing how the t-shirt fits during movement, fabric stretching naturally as they reach for climbing gear, logo clearly visible and fabric quality apparent",
+                    "camera_angle": "closeup",
+                    "shot_type": "pan",
+                    "has_model": true,
+                    "lighting": "soft natural light with dappled shadows",
+                    "background_details": "Blurred outdoor gear and natural rock formations"
+                }
+            ]
+        },
+        {
+            "scene_number": 3,
+            "scene_title": "Quality & Comfort Focus",
+            "scene_purpose": "Highlight fabric quality, fit, and comfort while building desire for purchase",
+            "setting": "Modern lifestyle setting with warm, inviting atmosphere",
+            "mood": "Comfortable and premium",
+            "frames": [
+                {
+                    "frame_number": 7,
+                    "visual_prompt": "Extreme close-up of hands feeling the soft cotton fabric of the orange t-shirt, fingers running along the material showing texture and quality, warm lighting emphasizing the premium feel",
+                    "camera_angle": "extreme_closeup",
+                    "shot_type": "static",
+                    "has_model": true,
+                    "lighting": "warm soft lighting with shallow depth of field",
+                    "background_details": "Blurred warm interior setting with natural textures"
+                },
+                {
+                    "frame_number": 8,
+                    "visual_prompt": "Model wearing the t-shirt in casual indoor setting, stretching arms above head to show fit and comfort, natural smile showing satisfaction, orange color vibrant under warm interior lighting",
+                    "camera_angle": "full_shot",
+                    "shot_type": "tilt",
+                    "has_model": true,
+                    "lighting": "warm natural window light with cozy ambiance",
+                    "background_details": "Modern minimalist interior with plants and natural elements"
+                },
+                {
+                    "frame_number": 9,
+                    "visual_prompt": "Final product shot of the orange t-shirt laid flat with perfect styling, mountain logo prominently displayed, surrounded by adventure accessories like compass and map, creating desire to purchase",
+                    "camera_angle": "overhead",
+                    "shot_type": "zoom_out",
+                    "has_model": false,
+                    "lighting": "bright even lighting with slight vignette",
+                    "background_details": "Styled flat lay with wooden surface, outdoor gear props, and natural textures"
+                }
+            ]
+        }
+    ]
+}
