@@ -2,7 +2,7 @@ import os
 import sys
 import time
 import tempfile
-import asyncio
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 from typing import List, Optional, Dict
 from datetime import datetime
@@ -30,7 +30,7 @@ class AIVideoEditor:
     def __init__(self):
         self.llm = claude_handler.llm
 
-    def _upload_video_to_s3(self, video_path: str) -> Optional[str]:
+    async def _upload_video_to_s3(self, video_path: str) -> Optional[str]:
         """
         Upload a video file to S3 storage.
 
@@ -52,15 +52,13 @@ class AIVideoEditor:
             filename = Path(video_path).name
             s3_key = f"ai_edited_videos/{timestamp}_{filename}"
             
-            # Upload to S3 (storage_upload_bytes is async, so we need to run it)
+            # Upload to S3 (storage_upload_bytes is async, so we await it)
             lg.info(f"Uploading {len(video_bytes)} bytes to S3 key: {s3_key}")
-            s3_url = asyncio.run(
-                storage_upload_bytes(
-                    bucket=settings.S3_ASSET_BUCKET,
-                    key=s3_key,
-                    data=video_bytes,
-                    content_type="video/mp4"
-                )
+            s3_url = await storage_upload_bytes(
+                bucket=settings.S3_ASSET_BUCKET,
+                key=s3_key,
+                data=video_bytes,
+                content_type="video/mp4"
             )
             
             if s3_url:
@@ -171,11 +169,23 @@ Please analyze these clips and create a professional editing plan that determine
             temp_dir = tempfile.mkdtemp()
             lg.info(f"Using temporary directory: {temp_dir}")
 
-            # Download all videos
-            temp_video_paths = []
-            for i, url in enumerate(video_urls):
-                temp_path = self._download_video(url, temp_dir, i)
-                temp_video_paths.append(temp_path)
+            # Download all videos in parallel
+            temp_video_paths = [None] * len(video_urls)
+            with ThreadPoolExecutor(max_workers=min(len(video_urls), 10)) as executor:
+                # Submit all download tasks
+                future_to_index = {
+                    executor.submit(self._download_video, url, temp_dir, i): i
+                    for i, url in enumerate(video_urls)
+                }
+                # Collect results as they complete, preserving order
+                for future in as_completed(future_to_index):
+                    index = future_to_index[future]
+                    try:
+                        temp_path = future.result()
+                        temp_video_paths[index] = temp_path
+                    except Exception as e:
+                        lg.error(f"Error downloading video {index + 1}: {e}")
+                        raise
 
             # Load video clips with validation
             clips = []
@@ -465,7 +475,7 @@ Please analyze these clips and create a professional editing plan that determine
             lg.error(f"Error executing AI edit plan: {e}")
             raise
 
-    def stitch_videos(
+    async def stitch_videos(
         self, video_urls: List[str], output_path: str = "final_edit.mp4"
     ) -> Dict[str, Optional[str]]:
         """
@@ -490,7 +500,7 @@ Please analyze these clips and create a professional editing plan that determine
             final_path = self._execute_ai_edit_plan(edit_plan, video_urls, output_path)
 
             # Step 3: Upload to S3
-            s3_url = self._upload_video_to_s3(final_path)
+            s3_url = await self._upload_video_to_s3(final_path)
 
             result = {
                 "local_path": final_path,
@@ -512,6 +522,7 @@ ai_video_editor = AIVideoEditor()
 if __name__ == "__main__":
     # Example usage for testing
     import json
+    import asyncio
 
     # Load video URLs from the JSON file
     with open("video_urls.json", "r") as f:
@@ -521,7 +532,7 @@ if __name__ == "__main__":
 
     # Stitch videos with AI-driven transitions
     output_file = "ai_edited_video.mp4"
-    result = ai_video_editor.stitch_videos(video_urls, output_file)
+    result = asyncio.run(ai_video_editor.stitch_videos(video_urls, output_file))
 
     print(f"\n=== AI Video Editing Complete ===")
     print(f"Local video: {result['local_path']}")

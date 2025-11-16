@@ -42,7 +42,7 @@ async def main(image_url: str,output_name: str, user_text:str=""):
         save_to_json(video_urls, os.path.join(output_path, "video_urls.json"))
         ai_video_editor = AIVideoEditor()
 
-        final_video_result = ai_video_editor.stitch_videos(video_urls, os.path.join(output_path, "final_video.mp4"))
+        final_video_result = await ai_video_editor.stitch_videos(video_urls, os.path.join(output_path, "final_video.mp4"))
         save_to_json(final_video_result, os.path.join(output_path, "final_video_result.json"))
         end_time = time.time()
         lg.info(f"Application completed in {end_time - start_time:.2f} seconds")
@@ -59,6 +59,12 @@ async def main(image_url: str,output_name: str, user_text:str=""):
 
 if __name__ == "__main__":
     # asyncio.run(main("https://dev.cdn.pro.corp.shopos.ai/1763144221_760b4701beb3431ca65a38e3e2993c2d_original.png","tshirt_video_custom"))
-    asyncio.run(main("https://dev.cdn.pro.corp.shopos.ai/1759991733-generated_image_a0ee3e4f-99f8-463c-a6b1-8b132caa41b0_1.jpeg","shoes", " create a lifestyle video for this shoes"))
+    # asyncio.run(main("https://dev.cdn.pro.corp.shopos.ai/1759991733-generated_image_a0ee3e4f-99f8-463c-a6b1-8b132caa41b0_1.jpeg","shoes", " create a lifestyle video for this shoes"))
+    # asyncio.run(main("https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcSWqLgLqxH5cIdNebQO6NQpfxIjnRANDATzQ5T4Vttkp7M9Uivxa8SWPEwvJBWPHdG2Hn6Z4QzoCVCrJ4fnv2BIMJ7EYx6u6rTVNyNf0yWzcfya8hoFiTDoYA","shoes_nike", " create a lifestyle video for this running shoes"))
+    #asyncio.run(main("https://image.hm.com/assets/hm/8f/24/8f24a82a0a3e9a6d963fcbecd193453557650c85.jpg","infant_red_dress", " create a cute video for this red dress."))
+    # asyncio.run(main("https://www.aldoshoes.in/on/demandware.static/-/Sites-aldo_master_catalog/default/dw181b27db/large/gweneth168029_1.jpg","women_handbag", "create a editorial video for this handbag. with just 4 frames"))
+
+    # "https://dev.cdn.pro.corp.shopos.ai/1762977300_4e1f6c55d868439e92d4d2e609631671_original.png"
+    asyncio.run(main("https://dev.cdn.pro.corp.shopos.ai/1762977300_4e1f6c55d868439e92d4d2e609631671_original.png","black_tshirt", "create a editorial video for this tshirt."))
 
     

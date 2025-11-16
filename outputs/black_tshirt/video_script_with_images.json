@@ -1,0 +1,166 @@
+{
+  "product_category": "Clothing",
+  "product_name": "Black Geometric Design T-Shirt",
+  "video_title": "GEOMETRIC REBELLION: Editorial Fashion Film",
+  "video_hook": "Extreme closeup of pixelated geometric design materializing on black fabric in dramatic lighting",
+  "target_audience": "Fashion-forward millennials and Gen Z who appreciate streetwear and artistic design",
+  "video_objective": "Create an editorial fashion film that elevates the t-shirt as a statement piece and drives brand desire through artistic storytelling",
+  "scenes": [
+    {
+      "scene_number": 1,
+      "scene_title": "The Awakening",
+      "scene_purpose": "Introduce the geometric design as the hero element with dramatic reveal",
+      "setting": "Minimalist white studio with harsh directional lighting creating geometric shadows",
+      "mood": "Mysterious, architectural, avant-garde",
+      "frames": [
+        {
+          "frame_number": 1,
+          "visual_prompt": "Extreme closeup of the pixelated geometric design on black fabric, shot with macro lens. Harsh white light from 45-degree angle creates dramatic shadows that echo the geometric pattern. The blocky text appears to emerge from darkness. Color grade: high contrast black and white with selective color on geometric elements.",
+          "camera_angle": "extreme_closeup",
+          "shot_type": "static",
+          "has_model": false,
+          "lighting": "harsh directional white light from 45-degree angle",
+          "background_details": "Pure black background transitioning to the fabric texture",
+          "image_url": "https://shopos-pro-dev-assets.s3.us-west-2.amazonaws.com/1-1-1763315676.png?AWSAccessKeyId=AKIA23SS4NVQG2HLRG4K&Signature=%2BXotnfIBBGm7v8x4wgZdIG46%2BP4%3D&Expires=1763920479"
+        },
+        {
+          "frame_number": 2,
+          "visual_prompt": "Medium shot of the complete t-shirt laid flat on white concrete surface. Overhead geometric light patterns cast from venetian blinds create striped shadows across the shirt. The circular pattern in the background design catches subtle highlights. Shot from slightly elevated angle.",
+          "camera_angle": "medium_shot",
+          "shot_type": "dolly",
+          "has_model": false,
+          "lighting": "geometric light patterns from venetian blinds, soft diffused fill light",
+          "background_details": "White concrete surface with architectural shadow patterns",
+          "image_url": "https://shopos-pro-dev-assets.s3.us-west-2.amazonaws.com/1-2-1763315676.png?AWSAccessKeyId=AKIA23SS4NVQG2HLRG4K&Signature=FYUsmNWO2wJz6ZY1WFvnJVHmBpM%3D&Expires=1763920479"
+        },
+        {
+          "frame_number": 3,
+          "visual_prompt": "Wide shot revealing the full studio setup with the t-shirt as centerpiece. Minimalist white space with concrete floors and geometric light installations. Camera slowly pulls back to reveal the artistic environment. Monochromatic palette with the black shirt as focal point.",
+          "camera_angle": "wide_shot",
+          "shot_type": "zoom_out",
+          "has_model": false,
+          "lighting": "multiple geometric light sources creating architectural shadows",
+          "background_details": "Minimalist white studio with concrete floors and geometric light installations",
+          "image_url": "https://shopos-pro-dev-assets.s3.us-west-2.amazonaws.com/1-3-1763315678.png?AWSAccessKeyId=AKIA23SS4NVQG2HLRG4K&Signature=Z4MCxLN0YwlPOmQj83irdEq%2F%2F3M%3D&Expires=1763920481"
+        }
+      ]
+    },
+    {
+      "scene_number": 2,
+      "scene_title": "Human Connection",
+      "scene_purpose": "Show the t-shirt in context on a model, emphasizing fit and style",
+      "setting": "Urban rooftop during golden hour with city skyline backdrop",
+      "mood": "Confident, urban, editorial",
+      "frames": [
+        {
+          "frame_number": 4,
+          "visual_prompt": "Medium shot of young model wearing the black geometric t-shirt, standing against concrete wall. Golden hour light creates warm rim lighting on the model's silhouette while keeping the shirt's design visible. Model has confident, stoic expression. Shot with shallow depth of field.",
+          "camera_angle": "medium_shot",
+          "shot_type": "static",
+          "has_model": true,
+          "lighting": "golden hour backlight with soft fill light from reflector",
+          "background_details": "Concrete urban wall with subtle texture, city lights beginning to twinkle in background",
+          "image_url": "https://shopos-pro-dev-assets.s3.us-west-2.amazonaws.com/2-4-1763315679.png?AWSAccessKeyId=AKIA23SS4NVQG2HLRG4K&Signature=Ad0qHqElk8arnNd2qNRPpS50uCc%3D&Expires=1763920481"
+        },
+        {
+          "frame_number": 5,
+          "visual_prompt": "Closeup of model's torso focusing on the geometric design, hands naturally positioned at sides. Camera slowly pans from left to right across the design details. The pixelated text and circular pattern are clearly visible. Warm golden light creates subtle fabric texture highlights.",
+          "camera_angle": "closeup",
+          "shot_type": "pan",
+          "has_model": true,
+          "lighting": "warm golden hour light with controlled shadows",
+          "background_details": "Blurred urban rooftop environment with warm bokeh lights",
+          "image_url": "https://shopos-pro-dev-assets.s3.us-west-2.amazonaws.com/2-5-1763315678.png?AWSAccessKeyId=AKIA23SS4NVQG2HLRG4K&Signature=fE5l%2BcN5PyzAElb6zoNJ9tzrL%2Fc%3D&Expires=1763920481"
+        },
+        {
+          "frame_number": 6,
+          "visual_prompt": "Full shot of model walking naturally across rooftop, t-shirt flowing with movement. Camera tracks alongside at same pace. City skyline with geometric buildings echoes the shirt's design language. Shot during blue hour for dramatic sky contrast against black shirt.",
+          "camera_angle": "full_shot",
+          "shot_type": "tracking",
+          "has_model": true,
+          "lighting": "blue hour ambient light with subtle fill flash",
+          "background_details": "Urban rooftop with city skyline featuring geometric architecture",
+          "image_url": "https://shopos-pro-dev-assets.s3.us-west-2.amazonaws.com/2-6-1763315680.png?AWSAccessKeyId=AKIA23SS4NVQG2HLRG4K&Signature=8qOBOrBbxzyBVdpQg7p6B%2F2YGS8%3D&Expires=1763920483"
+        }
+      ]
+    },
+    {
+      "scene_number": 3,
+      "scene_title": "Lifestyle Integration",
+      "scene_purpose": "Demonstrate the versatility and everyday appeal of the t-shirt",
+      "setting": "Modern minimalist apartment with large windows and contemporary furniture",
+      "mood": "Relaxed, aspirational, contemporary",
+      "frames": [
+        {
+          "frame_number": 7,
+          "visual_prompt": "Over shoulder shot of model sitting at modern desk, working on laptop while wearing the geometric t-shirt. Large window provides soft natural light. The geometric design is partially visible from the side angle. Modern interior with clean lines echoes the shirt's aesthetic.",
+          "camera_angle": "over_shoulder",
+          "shot_type": "static",
+          "has_model": true,
+          "lighting": "soft natural window light with subtle warm interior lighting",
+          "background_details": "Modern minimalist apartment with large windows, contemporary furniture, and clean architectural lines",
+          "image_url": "https://shopos-pro-dev-assets.s3.us-west-2.amazonaws.com/3-7-1763315681.png?AWSAccessKeyId=AKIA23SS4NVQG2HLRG4K&Signature=orCI6XRaMfgS5HHtqbIp0Snl9Pc%3D&Expires=1763920484"
+        },
+        {
+          "frame_number": 8,
+          "visual_prompt": "High angle shot of model lounging on minimalist sofa, geometric t-shirt contrasting beautifully with neutral furniture. Camera slowly tilts down from ceiling view. The circular pattern in the design catches soft afternoon light streaming through large windows.",
+          "camera_angle": "high_angle",
+          "shot_type": "tilt",
+          "has_model": true,
+          "lighting": "soft diffused afternoon light through large windows",
+          "background_details": "Minimalist living room with neutral tones, contemporary furniture, and architectural elements",
+          "image_url": "https://shopos-pro-dev-assets.s3.us-west-2.amazonaws.com/3-8-1763315682.png?AWSAccessKeyId=AKIA23SS4NVQG2HLRG4K&Signature=wUFHM0tV3NV2mQZQfxeF57wX30Q%3D&Expires=1763920485"
+        },
+        {
+          "frame_number": 9,
+          "visual_prompt": "Extreme closeup of the geometric design as model moves naturally, fabric catching light and shadow. Shot in slow motion to capture the subtle movement of the fabric and how the design maintains its impact during wear. Artistic depth of field with background completely blurred.",
+          "camera_angle": "extreme_closeup",
+          "shot_type": "handheld",
+          "has_model": true,
+          "lighting": "soft natural light with dramatic shadows",
+          "background_details": "Completely blurred interior background creating artistic bokeh",
+          "image_url": "https://shopos-pro-dev-assets.s3.us-west-2.amazonaws.com/3-9-1763315684.png?AWSAccessKeyId=AKIA23SS4NVQG2HLRG4K&Signature=hDB2WhT6DNObc3qmpcO6o%2B5vvTs%3D&Expires=1763920487"
+        }
+      ]
+    },
+    {
+      "scene_number": 4,
+      "scene_title": "The Statement",
+      "scene_purpose": "Create a powerful finale that positions the t-shirt as a design statement piece",
+      "setting": "Art gallery with white walls and dramatic spotlighting",
+      "mood": "Sophisticated, artistic, museum-quality",
+      "frames": [
+        {
+          "frame_number": 10,
+          "visual_prompt": "Wide shot of model standing in art gallery wearing the geometric t-shirt, positioned like a living art piece. Dramatic museum spotlighting creates strong contrast. The geometric design appears as wearable art against the gallery's white walls and contemporary art pieces.",
+          "camera_angle": "wide_shot",
+          "shot_type": "crane",
+          "has_model": true,
+          "lighting": "dramatic museum spotlighting with controlled shadows",
+          "background_details": "Contemporary art gallery with white walls, polished concrete floors, and modern art installations",
+          "image_url": "https://shopos-pro-dev-assets.s3.us-west-2.amazonaws.com/4-10-1763315684.png?AWSAccessKeyId=AKIA23SS4NVQG2HLRG4K&Signature=0k03rR2s9IbYxcZa8NnXYYflvvI%3D&Expires=1763920486"
+        },
+        {
+          "frame_number": 11,
+          "visual_prompt": "Dutch angle closeup of the geometric design with dramatic lighting creating strong geometric shadows that extend beyond the shirt onto the gallery wall. The pixelated font and circular pattern create an interplay with the architectural shadows. Artistic and editorial composition.",
+          "camera_angle": "dutch_angle",
+          "shot_type": "zoom_in",
+          "has_model": true,
+          "lighting": "dramatic directional spotlighting creating geometric shadows",
+          "background_details": "White gallery wall with projected geometric shadows from the lighting setup",
+          "image_url": "https://shopos-pro-dev-assets.s3.us-west-2.amazonaws.com/4-11-1763315685.png?AWSAccessKeyId=AKIA23SS4NVQG2HLRG4K&Signature=85lgoTEo2H%2Bq2dDXArJwcp6HuOw%3D&Expires=1763920488"
+        },
+        {
+          "frame_number": 12,
+          "visual_prompt": "Final medium shot of model in confident pose, the geometric t-shirt as the hero piece. Camera slowly pulls focus from background art pieces to the shirt design, establishing it as wearable art. Sophisticated lighting emphasizes both the model and the geometric design. Fade to black ending.",
+          "camera_angle": "medium_shot",
+          "shot_type": "steadicam",
+          "has_model": true,
+          "lighting": "sophisticated gallery lighting with controlled highlights and shadows",
+          "background_details": "Art gallery with contemporary pieces slightly out of focus, emphasizing the t-shirt as the main art piece",
+          "image_url": "https://shopos-pro-dev-assets.s3.us-west-2.amazonaws.com/4-12-1763315685.png?AWSAccessKeyId=AKIA23SS4NVQG2HLRG4K&Signature=BnXs7RnC3ibUEzjz9lKHKeSp7aE%3D&Expires=1763920487"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,126 @@
+{
+  "product_category": "Baby Clothing",
+  "product_name": "Red Reindeer Baby Onesie",
+  "video_title": "Adorable Holiday Magic: Red Reindeer Onesie",
+  "video_hook": "Tiny hands reaching for the cutest holiday onesie that will melt your heart",
+  "target_audience": "New parents, expecting mothers, gift-buyers for babies",
+  "video_objective": "Showcase the adorable design and practical features of the red reindeer onesie while evoking emotional connection",
+  "scenes": [
+    {
+      "scene_number": 1,
+      "scene_title": "First Glimpse of Cuteness",
+      "scene_purpose": "Hook viewers with immediate cuteness factor and product reveal",
+      "setting": "Soft, minimalist nursery with white crib and warm lighting",
+      "mood": "Warm, cozy, and heartwarming",
+      "frames": [
+        {
+          "frame_number": 1,
+          "visual_prompt": "Extreme closeup of the adorable reindeer face applique on the red onesie, laid flat on a soft white blanket. Warm, diffused natural light from window creates gentle shadows. The reindeer's embroidered details are clearly visible with cute button nose and antlers. Shot in slight slow motion with shallow depth of field.",
+          "camera_angle": "extreme_closeup",
+          "shot_type": "static",
+          "has_model": false,
+          "lighting": "Soft natural window light",
+          "background_details": "Blurred white fluffy blanket texture with bokeh effect",
+          "image_url": "https://shopos-pro-dev-assets.s3.us-west-2.amazonaws.com/1-1-1763225618.png?AWSAccessKeyId=AKIA23SS4NVQG2HLRG4K&Signature=Q9ebKf5%2BMXKUza1v2ESMBOm5sGI%3D&Expires=1763830421"
+        },
+        {
+          "frame_number": 2,
+          "visual_prompt": "Medium shot of the complete red onesie displayed on a white wooden changing table in a bright nursery. The diagonal snap buttons are clearly visible, and the footed design with reindeer faces on feet is prominently shown. Soft toys and baby items in background create context. Warm, inviting lighting.",
+          "camera_angle": "medium_shot",
+          "shot_type": "dolly",
+          "has_model": false,
+          "lighting": "Warm ambient nursery lighting",
+          "background_details": "White wooden furniture, soft pastel toys, and baby care items",
+          "image_url": "https://shopos-pro-dev-assets.s3.us-west-2.amazonaws.com/1-2-1763225616.png?AWSAccessKeyId=AKIA23SS4NVQG2HLRG4K&Signature=7oP16avOHLLcN043jZhVC3390ug%3D&Expires=1763830418"
+        }
+      ]
+    },
+    {
+      "scene_number": 2,
+      "scene_title": "Dressing Made Easy",
+      "scene_purpose": "Demonstrate the practical snap button feature and ease of use",
+      "setting": "Cozy bedroom with natural lighting",
+      "mood": "Gentle, nurturing, and practical",
+      "frames": [
+        {
+          "frame_number": 3,
+          "visual_prompt": "Closeup of gentle mother's hands carefully snapping the diagonal buttons on a baby wearing the red reindeer onesie. The baby is lying on a soft cream-colored blanket. Soft morning light streams in, creating a warm glow. Focus on the ease of the snapping motion and the comfortable fit.",
+          "camera_angle": "closeup",
+          "shot_type": "static",
+          "has_model": true,
+          "lighting": "Soft morning natural light",
+          "background_details": "Cream blanket texture with soft bedroom setting",
+          "image_url": "https://shopos-pro-dev-assets.s3.us-west-2.amazonaws.com/2-3-1763225625.png?AWSAccessKeyId=AKIA23SS4NVQG2HLRG4K&Signature=KxBAWwdbZSSG%2Bc%2BFUYfVBzTklzw%3D&Expires=1763830428"
+        },
+        {
+          "frame_number": 4,
+          "visual_prompt": "Low angle shot of an adorable baby sitting up wearing the complete red reindeer onesie, with tiny hands reaching forward playfully. The reindeer faces on the feet are clearly visible as baby moves legs. Warm, golden hour lighting creates a magical atmosphere in the nursery.",
+          "camera_angle": "low_angle",
+          "shot_type": "handheld",
+          "has_model": true,
+          "lighting": "Golden hour warm light",
+          "background_details": "Soft-focus nursery with toys and warm decor",
+          "image_url": "https://shopos-pro-dev-assets.s3.us-west-2.amazonaws.com/2-4-1763225617.png?AWSAccessKeyId=AKIA23SS4NVQG2HLRG4K&Signature=789mz7jzoGeQMjb%2FZyRTepe%2FQJw%3D&Expires=1763830420"
+        }
+      ]
+    },
+    {
+      "scene_number": 3,
+      "scene_title": "Adorable Details",
+      "scene_purpose": "Highlight the cute design elements and quality features",
+      "setting": "Clean, bright studio setup with festive elements",
+      "mood": "Playful, festive, and joyful",
+      "frames": [
+        {
+          "frame_number": 5,
+          "visual_prompt": "Overhead shot of baby's feet in the onesie, showcasing the adorable reindeer faces on each foot. Baby is lying on a soft white surface with small holiday decorations around. The shot captures the playful movement of tiny feet kicking gently. Bright, even lighting highlights the cute details.",
+          "camera_angle": "overhead",
+          "shot_type": "static",
+          "has_model": true,
+          "lighting": "Bright, even studio lighting",
+          "background_details": "Clean white surface with subtle holiday props like small pine cones and red ribbons",
+          "image_url": "https://shopos-pro-dev-assets.s3.us-west-2.amazonaws.com/3-5-1763225617.png?AWSAccessKeyId=AKIA23SS4NVQG2HLRG4K&Signature=5V8STM8CbeZFlaWai%2BpN5dIyRfM%3D&Expires=1763830419"
+        },
+        {
+          "frame_number": 6,
+          "visual_prompt": "Wide shot of happy baby crawling while wearing the red reindeer onesie on a soft play mat. The full outfit is visible showing how well it fits during movement. Natural light from large windows creates a bright, airy atmosphere. Baby's joyful expression and the onesie's comfort during play are emphasized.",
+          "camera_angle": "wide_shot",
+          "shot_type": "tracking",
+          "has_model": true,
+          "lighting": "Bright natural daylight",
+          "background_details": "Colorful play mat with toys scattered around, bright living room setting",
+          "image_url": "https://shopos-pro-dev-assets.s3.us-west-2.amazonaws.com/3-6-1763225622.png?AWSAccessKeyId=AKIA23SS4NVQG2HLRG4K&Signature=%2FDi2R8e%2FhxuLTC0IderlhhhcuCo%3D&Expires=1763830425"
+        }
+      ]
+    },
+    {
+      "scene_number": 4,
+      "scene_title": "Perfect Holiday Gift",
+      "scene_purpose": "Create emotional connection and call-to-action for purchase",
+      "setting": "Elegant gift presentation setup",
+      "mood": "Warm, gift-giving, emotional",
+      "frames": [
+        {
+          "frame_number": 7,
+          "visual_prompt": "Medium shot of the red reindeer onesie beautifully folded and placed in an elegant gift box with tissue paper. Soft hands are gently placing a red ribbon on top. Warm, cozy lighting suggests the perfect holiday gift. The scene evokes the joy of giving something special.",
+          "camera_angle": "medium_shot",
+          "shot_type": "zoom_in",
+          "has_model": true,
+          "lighting": "Warm, cozy indoor lighting",
+          "background_details": "Elegant wrapping station with holiday decorations and gift materials",
+          "image_url": "https://shopos-pro-dev-assets.s3.us-west-2.amazonaws.com/4-7-1763225616.png?AWSAccessKeyId=AKIA23SS4NVQG2HLRG4K&Signature=2FekV6lC2j%2BKlAfBtyt6cksnQjE%3D&Expires=1763830419"
+        },
+        {
+          "frame_number": 8,
+          "visual_prompt": "Closeup of a content baby sleeping peacefully while wearing the red reindeer onesie, nestled in soft blankets. The reindeer face applique is visible, and the overall scene radiates comfort and security. Gentle, dim lighting creates a serene bedtime atmosphere that shows the onesie's comfort.",
+          "camera_angle": "closeup",
+          "shot_type": "static",
+          "has_model": true,
+          "lighting": "Soft, dim nursery night light",
+          "background_details": "Soft blankets and pillows in muted tones, peaceful nursery setting",
+          "image_url": "https://shopos-pro-dev-assets.s3.us-west-2.amazonaws.com/4-8-1763225619.png?AWSAccessKeyId=AKIA23SS4NVQG2HLRG4K&Signature=IOasBqQRkFu6Lat3fGVDYe%2Bso5c%3D&Expires=1763830422"
+        }
+      ]
+    }
+  ]
+}
