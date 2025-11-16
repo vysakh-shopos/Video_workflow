@@ -2,8 +2,9 @@ import os
 import sys
 import time
 import tempfile
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
-from typing import List, Optional
+from typing import List, Optional, Dict
 from datetime import datetime
 from io import BytesIO
 
@@ -28,6 +29,48 @@ class AIVideoEditor:
 
     def __init__(self):
         self.llm = claude_handler.llm
+
+    async def _upload_video_to_s3(self, video_path: str) -> Optional[str]:
+        """
+        Upload a video file to S3 storage.
+
+        Args:
+            video_path: Local path to the video file
+
+        Returns:
+            str: S3 URL of the uploaded video, or None if upload failed
+        """
+        try:
+            lg.info(f"Uploading video to S3: {video_path}")
+            
+            # Read the video file as bytes
+            with open(video_path, "rb") as f:
+                video_bytes = f.read()
+            
+            # Generate S3 key with timestamp
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            filename = Path(video_path).name
+            s3_key = f"ai_edited_videos/{timestamp}_{filename}"
+            
+            # Upload to S3 (storage_upload_bytes is async, so we await it)
+            lg.info(f"Uploading {len(video_bytes)} bytes to S3 key: {s3_key}")
+            s3_url = await storage_upload_bytes(
+                bucket=settings.S3_ASSET_BUCKET,
+                key=s3_key,
+                data=video_bytes,
+                content_type="video/mp4"
+            )
+            
+            if s3_url:
+                lg.info(f"Video successfully uploaded to S3: {s3_url}")
+            else:
+                lg.warning("S3 upload returned None - upload may have failed")
+            
+            return s3_url
+            
+        except Exception as e:
+            lg.error(f"Error uploading video to S3: {e}")
+            return None
 
     def create_edit_plan(self, video_urls: List[str]) -> EditPlan:
         """
@@ -126,15 +169,65 @@ Please analyze these clips and create a professional editing plan that determine
             temp_dir = tempfile.mkdtemp()
             lg.info(f"Using temporary directory: {temp_dir}")
 
-            # Download all videos
-            temp_video_paths = []
-            for i, url in enumerate(video_urls):
-                temp_path = self._download_video(url, temp_dir, i)
-                temp_video_paths.append(temp_path)
+            # Download all videos in parallel
+            temp_video_paths = [None] * len(video_urls)
+            with ThreadPoolExecutor(max_workers=min(len(video_urls), 10)) as executor:
+                # Submit all download tasks
+                future_to_index = {
+                    executor.submit(self._download_video, url, temp_dir, i): i
+                    for i, url in enumerate(video_urls)
+                }
+                # Collect results as they complete, preserving order
+                for future in as_completed(future_to_index):
+                    index = future_to_index[future]
+                    try:
+                        temp_path = future.result()
+                        temp_video_paths[index] = temp_path
+                    except Exception as e:
+                        lg.error(f"Error downloading video {index + 1}: {e}")
+                        raise
 
-            # Load video clips
-            clips = [VideoFileClip(path) for path in temp_video_paths]
+            # Load video clips with validation
+            clips = []
+            for i, path in enumerate(temp_video_paths):
+                try:
+                    clip = VideoFileClip(path)
+                    # Validate clip has valid dimensions
+                    if not clip.size or clip.size[0] <= 0 or clip.size[1] <= 0:
+                        lg.error(f"Clip {i} has invalid dimensions: {clip.size}")
+                        clip.close()
+                        raise ValueError(f"Clip {i} from {path} has invalid dimensions: {clip.size}")
+                    clips.append(clip)
+                    lg.info(f"Loaded clip {i}: size={clip.size}, duration={clip.duration:.2f}s")
+                except Exception as e:
+                    lg.error(f"Error loading clip {i} from {path}: {e}")
+                    raise
+            
             lg.info(f"Loaded {len(clips)} video clips")
+
+            # Validate and normalize clip dimensions
+            if not clips:
+                raise ValueError("No clips loaded")
+            
+            # Find the first valid clip size to use as reference
+            reference_size = None
+            for clip in clips:
+                if clip.size and clip.size[0] > 0 and clip.size[1] > 0:
+                    reference_size = clip.size
+                    lg.info(f"Using reference size: {reference_size}")
+                    break
+            
+            if not reference_size:
+                raise ValueError("No valid clip dimensions found")
+            
+            # Resize all clips to match reference size
+            normalized_clips = []
+            for i, clip in enumerate(clips):
+                if clip.size != reference_size:
+                    lg.info(f"Resizing clip {i} from {clip.size} to {reference_size}")
+                    clip = clip.with_effects([vfx.Resize(reference_size)])
+                normalized_clips.append(clip)
+            clips = normalized_clips
 
             # Process segments with transition-aware logic
             timeline_clips = []
@@ -221,9 +314,9 @@ Please analyze these clips and create a professional editing plan that determine
                     prev_clip = timeline_clips[-1]
                     timeline_clips[-1] = prev_clip.with_effects([vfx.FadeOut(half_duration)])
                     
-                    # Create white flash clip
+                    # Create white flash clip using reference size
                     white_clip = ColorClip(
-                        size=clips[0].size, 
+                        size=reference_size, 
                         color=(255, 255, 255), 
                         duration=half_duration
                     ).with_start(current_timeline_end)
@@ -266,12 +359,15 @@ Please analyze these clips and create a professional editing plan that determine
                     lg.info(f"Applying {transition_duration}s zoom in transition")
                     
                     # Apply zoom + fade to previous clip
-                    # Use resize with fixed scale (1.3x zoom) instead of dynamic
+                    # Use resize with fixed scale (1.3x zoom) then resize back to reference
                     prev_clip = timeline_clips[-1]
                     prev_clip_zoomed = prev_clip.with_effects([
                         vfx.Resize(1.3),  # Fixed 1.3x zoom
                         vfx.CrossFadeOut(transition_duration)
                     ])
+                    # Ensure it maintains reference size (crop if needed)
+                    if prev_clip_zoomed.size != reference_size:
+                        prev_clip_zoomed = prev_clip_zoomed.with_effects([vfx.Resize(reference_size)])
                     timeline_clips[-1] = prev_clip_zoomed
                     
                     # Fade in current clip
@@ -283,12 +379,15 @@ Please analyze these clips and create a professional editing plan that determine
                     lg.info(f"Applying {transition_duration}s zoom out transition")
                     
                     # Apply zoom + fade to previous clip
-                    # Use resize with fixed scale (0.8x zoom out) instead of dynamic
+                    # Use resize with fixed scale (0.8x zoom out) then resize back to reference
                     prev_clip = timeline_clips[-1]
                     prev_clip_zoomed = prev_clip.with_effects([
                         vfx.Resize(0.8),  # Fixed 0.8x zoom out
                         vfx.CrossFadeOut(transition_duration)
                     ])
+                    # Ensure it maintains reference size
+                    if prev_clip_zoomed.size != reference_size:
+                        prev_clip_zoomed = prev_clip_zoomed.with_effects([vfx.Resize(reference_size)])
                     timeline_clips[-1] = prev_clip_zoomed
                     
                     # Fade in current clip
@@ -317,9 +416,19 @@ Please analyze these clips and create a professional editing plan that determine
             # Composite all clips with proper timing and overlaps
             lg.info(f"Compositing {len(timeline_clips)} clips...")
             
-            # Get size from first clip
+            # Validate all clips have matching dimensions before compositing
             if timeline_clips:
-                size = timeline_clips[0].size
+                # Check and fix any size mismatches
+                for i, clip in enumerate(timeline_clips):
+                    if not clip.size or clip.size[0] == 0 or clip.size[1] == 0:
+                        lg.error(f"Clip {i} has invalid size: {clip.size}")
+                        raise ValueError(f"Clip {i} has invalid dimensions: {clip.size}")
+                    if clip.size != reference_size:
+                        lg.warning(f"Clip {i} size mismatch: {clip.size} != {reference_size}. Resizing...")
+                        timeline_clips[i] = clip.with_effects([vfx.Resize(reference_size)])
+                
+                size = reference_size
+                lg.info(f"Compositing with size: {size}")
                 final_video = CompositeVideoClip(timeline_clips, size=size)
                 
                 lg.info(f"Final video duration: {final_video.duration:.2f}s")
@@ -366,9 +475,9 @@ Please analyze these clips and create a professional editing plan that determine
             lg.error(f"Error executing AI edit plan: {e}")
             raise
 
-    def stitch_videos(
+    async def stitch_videos(
         self, video_urls: List[str], output_path: str = "final_edit.mp4"
-    ) -> str:
+    ) -> Dict[str, Optional[str]]:
         """
         Main entry point: Create an AI-driven edit plan and execute it.
 
@@ -377,7 +486,9 @@ Please analyze these clips and create a professional editing plan that determine
             output_path: Path for the final output video
 
         Returns:
-            str: Path to the final edited video
+            Dict containing:
+                - local_path: Local file path to the final edited video
+                - s3_url: S3 URL of the uploaded video (None if upload fails)
         """
         try:
             lg.info(f"Starting AI-driven video stitching for {len(video_urls)} clips")
@@ -388,8 +499,16 @@ Please analyze these clips and create a professional editing plan that determine
             # Step 2: Execute the plan
             final_path = self._execute_ai_edit_plan(edit_plan, video_urls, output_path)
 
-            lg.info(f"AI video editing complete! Final video: {final_path}")
-            return final_path
+            # Step 3: Upload to S3
+            s3_url = await self._upload_video_to_s3(final_path)
+
+            result = {
+                "local_path": final_path,
+                "s3_url": s3_url
+            }
+
+            lg.info(f"AI video editing complete! Local: {final_path}, S3: {s3_url}")
+            return result
 
         except Exception as e:
             lg.error(f"Error in AI video stitching: {e}")
@@ -403,6 +522,7 @@ ai_video_editor = AIVideoEditor()
 if __name__ == "__main__":
     # Example usage for testing
     import json
+    import asyncio
 
     # Load video URLs from the JSON file
     with open("video_urls.json", "r") as f:
@@ -412,8 +532,9 @@ if __name__ == "__main__":
 
     # Stitch videos with AI-driven transitions
     output_file = "ai_edited_video.mp4"
-    final_video_path = ai_video_editor.stitch_videos(video_urls, output_file)
+    result = asyncio.run(ai_video_editor.stitch_videos(video_urls, output_file))
 
     print(f"\n=== AI Video Editing Complete ===")
-    print(f"Final video: {final_video_path}")
+    print(f"Local video: {result['local_path']}")
+    print(f"S3 URL: {result['s3_url']}")
 

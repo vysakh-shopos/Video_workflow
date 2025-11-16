@@ -1,0 +1,86 @@
+{
+  "product_category": "Handbag",
+  "product_name": "Quilted Geometric Handbag",
+  "video_title": "Timeless Elegance: The Art of Luxury",
+  "video_hook": "A single golden key unlocks more than just a bag - it unlocks sophistication",
+  "target_audience": "Fashion-forward women aged 25-45 who appreciate luxury accessories and editorial aesthetics",
+  "video_objective": "Create an editorial fashion film that positions the handbag as a luxury statement piece through artistic cinematography and sophisticated styling",
+  "scenes": [
+    {
+      "scene_number": 1,
+      "scene_title": "The Reveal",
+      "scene_purpose": "Create intrigue and establish the luxury positioning through dramatic product introduction",
+      "setting": "Minimalist white studio with architectural elements",
+      "mood": "Mysterious and sophisticated",
+      "frames": [
+        {
+          "frame_number": 1,
+          "visual_prompt": "Extreme closeup of the golden key and lock hardware against soft white backdrop. Dramatic side lighting creates deep shadows and highlights the metallic texture. Shot in slow motion as a manicured hand with nude polish delicately turns the key. Background is completely white with subtle gradient shadows. Color grade: high contrast black and white with selective color on gold hardware.",
+          "camera_angle": "extreme_closeup",
+          "shot_type": "static",
+          "has_model": true,
+          "lighting": "dramatic side lighting with hard shadows",
+          "background_details": "Pure white seamless backdrop with subtle gradient shadows",
+          "image_url": "https://shopos-pro-dev-assets.s3.us-west-2.amazonaws.com/1-1-1763241651.png?AWSAccessKeyId=AKIA23SS4NVQG2HLRG4K&Signature=41teo%2BTPqDp6yCOG76mclmIO3i4%3D&Expires=1763846453"
+        }
+      ]
+    },
+    {
+      "scene_number": 2,
+      "scene_title": "Architectural Beauty",
+      "scene_purpose": "Showcase the quilted geometric pattern and craftsmanship details",
+      "setting": "Modern minimalist interior with clean lines",
+      "mood": "Clean and sophisticated",
+      "frames": [
+        {
+          "frame_number": 2,
+          "visual_prompt": "Medium shot of the cream quilted handbag positioned on a white marble pedestal against floor-to-ceiling windows. Natural soft light filters through creating gentle shadows that emphasize the geometric quilted pattern. The black handles and beige trim create elegant contrast. Shot with shallow depth of field, background shows blurred modern architecture. Color grade: bright, clean tones with enhanced cream and gold accents.",
+          "camera_angle": "medium_shot",
+          "shot_type": "dolly",
+          "has_model": false,
+          "lighting": "soft natural window light",
+          "background_details": "Floor-to-ceiling windows with blurred modern cityscape, white marble surfaces",
+          "image_url": "https://shopos-pro-dev-assets.s3.us-west-2.amazonaws.com/2-2-1763241650.png?AWSAccessKeyId=AKIA23SS4NVQG2HLRG4K&Signature=G94rnnsRMXzBDtHGJvEiHCoGTas%3D&Expires=1763846453"
+        }
+      ]
+    },
+    {
+      "scene_number": 3,
+      "scene_title": "The Model Moment",
+      "scene_purpose": "Show the handbag in use with elegant styling and movement",
+      "setting": "Luxurious hotel lobby or gallery space",
+      "mood": "Elegant and aspirational",
+      "frames": [
+        {
+          "frame_number": 3,
+          "visual_prompt": "Full shot of an elegant woman in a cream silk blouse and tailored black trousers walking through a marble corridor carrying the handbag. Camera tracks alongside her as she moves with confidence. The handbag swings naturally at her side, gold hardware catching the warm ambient lighting. Background shows classical architecture with columns and arches. Shot with cinematic depth of field. Color grade: warm, luxurious tones with enhanced golds and creams.",
+          "camera_angle": "full_shot",
+          "shot_type": "tracking",
+          "has_model": true,
+          "lighting": "warm ambient lighting with golden undertones",
+          "background_details": "Classical marble corridor with columns, arches, and sophisticated architectural details",
+          "image_url": "https://shopos-pro-dev-assets.s3.us-west-2.amazonaws.com/3-3-1763241652.png?AWSAccessKeyId=AKIA23SS4NVQG2HLRG4K&Signature=cLC4d5mFfzHfu5olrE4u5JgSpC4%3D&Expires=1763846455"
+        }
+      ]
+    },
+    {
+      "scene_number": 4,
+      "scene_title": "The Statement",
+      "scene_purpose": "Final hero shot that establishes the handbag as the ultimate luxury accessory",
+      "setting": "Editorial fashion studio setup",
+      "mood": "Bold and iconic",
+      "frames": [
+        {
+          "frame_number": 4,
+          "visual_prompt": "Wide shot of the handbag as the centerpiece on a glossy black surface with dramatic rim lighting creating a halo effect. Multiple reflections create depth and luxury appeal. The quilted pattern is perfectly lit to show texture and craftsmanship. Background fades to deep black with subtle spotlight effects. Shot from low angle to create powerful presence. Color grade: high contrast with deep blacks and luminous creams, enhanced gold hardware glow.",
+          "camera_angle": "low_angle",
+          "shot_type": "zoom_in",
+          "has_model": false,
+          "lighting": "dramatic rim lighting with spotlight effects",
+          "background_details": "Glossy black surface with reflections, deep black background with subtle gradient lighting",
+          "image_url": "https://shopos-pro-dev-assets.s3.us-west-2.amazonaws.com/4-4-1763241651.png?AWSAccessKeyId=AKIA23SS4NVQG2HLRG4K&Signature=N3QL75UhSMBcCG9VDLLSrNgfBVo%3D&Expires=1763846454"
+        }
+      ]
+    }
+  ]
+}

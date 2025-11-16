@@ -55,7 +55,7 @@ class Scene(BaseModel):
     scene_purpose: str = Field(..., description="What this scene aims to communicate")
     setting: str = Field(..., description="Location/environment description")
     mood: str = Field(..., description="Emotional tone of the scene")
-    frames: List[Frame] = Field(..., min_items=1, description="List of frames in this scene")
+    frames: List[Frame] = Field(..., min_items=1, description="List of frames in this scene", max_length=3)
 
 
 class VideoScript(BaseModel):
@@ -66,4 +66,4 @@ class VideoScript(BaseModel):
     video_hook: str = Field(..., description="Opening hook to grab attention in first 3 seconds")
     target_audience: str = Field(..., description="Primary audience for this video")
     video_objective: str = Field(..., description="Main goal of the video")
-    scenes: List[Scene] = Field(..., min_items=3, description="List of scenes in the video")
+    scenes: List[Scene] = Field(..., min_items=3, description="List of scenes in the video", max_length=4)

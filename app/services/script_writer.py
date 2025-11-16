@@ -11,13 +11,14 @@ from app.models.script_writer import VideoScript
 from loguru import logger as lg
 
 
-def write_script(product_category: str, product_description: str) -> VideoScript:
+def write_script(product_category: str, product_description: str, user_text:str) -> VideoScript:
     try:
         start_time = time.time()
         llm_structured_output = claude_handler.llm.with_structured_output(VideoScript)
         messages = [
             SystemMessage(content=VIDEO_SCRIPT_PROMPT),
-            HumanMessage(content=f"Product Category: {product_category}\nProduct Description: {product_description}")
+            HumanMessage(content=f"Product Category: {product_category}\nProduct Description: {product_description}"),
+            HumanMessage(content=f"User Text: {user_text}")
         ]
         response = llm_structured_output.invoke(messages)
         end_time = time.time()
